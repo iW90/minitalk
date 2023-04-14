@@ -6,10 +6,8 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:07 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/13 19:56:24 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:09:33 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
-
-

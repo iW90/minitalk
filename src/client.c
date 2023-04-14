@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/13 21:04:21 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/13 21:10:32 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_atoi(const char *str)
 
 	negative = 1;
 	res = 0;
-	while (*str && (*str == ' ' || *str == '\n' || *str == '\t' ||
+	while (*str && (*str == ' ' || *str == '\n' || *str == '\t' || \
 			*str == '\v' || *str == '\f' || *str == '\r'))
 		++str;
 	if (*str == '-')
@@ -41,7 +41,6 @@ int	ft_atoi(const char *str)
 void	siggyaction(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
-	
 	printf("\n%i\n", info->si_pid);
 	if (sig == SIGINT)
 	{
@@ -54,7 +53,7 @@ int	main(int argc, char **argv)
 {
 	int					pid;
 	struct sigaction	s_iggy;
-	
+
 	if (argc != 3 /*|| ft_isdigit(argv[1])*/)
 	{
 		write(2, "Invalid arguments.\n", 19);
@@ -62,7 +61,7 @@ int	main(int argc, char **argv)
 	}
 	pid = ft_atoi(argv[1]);
 	printf("PID: %i\n", pid);
-	
+
 	// Lida com sinais que devem ser ignorados
 	sigemptyset(&s_iggy.sa_mask);
 
@@ -76,7 +75,7 @@ int	main(int argc, char **argv)
 	// Função para lidar com o sinal (recebe 3 parâmetros)
 	s_iggy.sa_sigaction = &siggyaction;
 
-	// 
+	// Hook: Manipula o comportamento de um sinal
 	sigaction(SIGINT, &s_iggy, NULL);
 	while (1)
 		;
