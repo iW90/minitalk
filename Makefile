@@ -6,58 +6,67 @@
 #    By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 19:33:27 by inwagner          #+#    #+#              #
-#    Updated: 2023/04/16 10:14:21 by inwagner         ###   ########.fr        #
+#    Updated: 2023/04/16 21:33:26 by inwagner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # NAMES
-NAME    :=  minitalk
-BNAME   :=  minitalk_bonus
-SERVER  :=  server
-CLIENT  :=  client
-BSERVER :=  server_bonus
-BCLIENT :=  client_bonus
+NAME	:=	minitalk
+BNAME	:=	minitalk_bonus
+SERVER	:=	server
+CLIENT	:=	client
+BSERVER	:=	server_bonus
+BCLIENT	:=	client_bonus
+PRINTF	:=	ft_printf.a
 
 # FLAGS
-HDR     :=  -I ./includes/
-CFLAG   :=  -Wall -Werror -Wextra
+HDR		:=	-I ./includes/
+CFLAG	:=	-Wall -Werror -Wextra
 
 # PATHS
-SRC     :=  ./srcs/
-OSRC    :=  ./objs/
-BSRC    :=  ./srcs/bonus/
+SRC		:=	./srcs/
+OSRC	:=	./objs/
+BSRC	:=	./srcs/bonus/
+PSRC	:=	./ft_printf/
+
+# PRINTF
+PTF		:=	$(addprefix ${PSRC}, ${PRINTF})
 
 # MANDATORY
-SFTS    :=  server.c
-CFTS    :=  client.c
-SOBJ    :=  $(SFTS:%.c=./objs/%.o)
-COBJ    :=  $(CFTS:%.c=./objs/%.o)
+SFTS	:=	server.c libft.c
+CFTS	:=	client.c libft.c
+SOBJ	:=	$(SFTS:%.c=$(OSRC)%.o)
+COBJ	:=	$(CFTS:%.c=$(OSRC)%.o)
 
 # BONUS
-BSFTS   :=  server_bonus.c
-BCFTS   :=  client_bonus.c
-BSOBJ   :=  $(BSFTS:%.c=./objs/%.o)
-BCOBJ   :=  $(BCFTS:%.c=./objs/%.o)
+BSFTS	:=	server_bonus.c libft.c
+BCFTS	:=	client_bonus.c libft.c
+BSOBJ	:=	$(BSFTS:%.c=$(OSRC)%.o)
+BCOBJ	:=	$(BCFTS:%.c=$(OSRC)%.o)
 
 # Commands
 all: $(NAME)
 
-$(NAME): $(SERVER) $(CLIENT)
+$(NAME): $(PTF) $(SERVER) $(CLIENT)
 
 bonus: $(BSERVER) $(BCLIENT)
 
+# Compile ft_printf
+$(PTF):
+	@$(MAKE) -C $(PSRC)
+
 # Compile objects
 $(SERVER): $(SOBJ)
-	cc $(CFLAG) $(SOBJ) -o $(SERVER)
+	cc $(CFLAG) $(SOBJ) $(PTF) -o $(SERVER)
 
 $(CLIENT): $(COBJ)
-	cc $(CFLAG) $(COBJ) -o $(CLIENT)
+	cc $(CFLAG) $(COBJ) $(PTF) -o $(CLIENT)
 
 $(BSERVER): $(BSOBJ)
-	cc $(CFLAG) $(BSOBJ) -o $(BSERVER)
+	cc $(CFLAG) $(BSOBJ) $(PTF) -o $(BSERVER)
 
 $(BCLIENT): $(BCOBJ)
-	cc $(CFLAG) $(BCOBJ) -o $(BCLIENT)
+	cc $(CFLAG) $(BCOBJ) $(PTF) -o $(BCLIENT)
 	
 # Make Objects
 $(OSRC)%.o: $(SRC)%.c
@@ -70,13 +79,15 @@ $(OSRC)%.o: $(BSRC)%.c
 
 # Cleaners e Remaker
 clean:
-	@[ -d ./objs ] && rm -rf ./objs || [ -f Makefile ]
+	@$(MAKE) -C $(PSRC) clean
+	@[ -d $(OSRC) ] && rm -rf $(OSRC) && echo objects deleted || [ -f Makefile ]
 
 fclean: clean
-	@[ -f ./$(SERVER) ] && rm $(SERVER) && echo $(SERVER) cleaned ||  [ -f Makefile ]
-	@[ -f ./$(CLIENT) ] && rm $(CLIENT) && echo $(CLIENT) cleaned ||  [ -f Makefile ]
-	@[ -f ./$(BSERVER) ] && rm $(BSERVER) && echo server bonus cleaned || [ -f Makefile ]
-	@[ -f ./$(BCLIENT) ] && rm $(BCLIENT) && echo client bonus cleaned || [ -f Makefile ]
+	@$(MAKE) -C $(PSRC) fclean
+	@[ -f ./$(SERVER) ] && rm $(SERVER) && echo $(SERVER) deleted ||  [ -f Makefile ]
+	@[ -f ./$(CLIENT) ] && rm $(CLIENT) && echo $(CLIENT) deleted ||  [ -f Makefile ]
+	@[ -f ./$(BSERVER) ] && rm $(BSERVER) && echo $(BSERVER) deleted || [ -f Makefile ]
+	@[ -f ./$(BCLIENT) ] && rm $(BCLIENT) && echo $(BCLIENT) deleted || [ -f Makefile ]
 
 re: fclean all
 
