@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 12:41:26 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/16 20:59:31 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/17 19:36:20 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 # include "../ft_printf/includes/ft_printf.h"
 
 int	ft_atoi(const char *str);
+int	ft_isalldigit(char *str);
 
 #endif
