@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/19 21:17:30 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:19:23 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,5 @@ static void	siggyaction(int sig, siginfo_t *info, void *context)
 	}
 }
 */
-
 
 //echo -e '\xDF\xB7''\xF0\x9F\x98\x80''\xC3\xB8''\xE1\x8E\x88''\xF0\x9F\x98\x85''\xDF\xA6''\xE1\x8F\xA2''\xF0\x9F\x98\x8A' | xargs ./client
