@@ -6,7 +6,7 @@
 #    By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 19:33:27 by inwagner          #+#    #+#              #
-#    Updated: 2023/04/19 21:24:01 by inwagner         ###   ########.fr        #
+#    Updated: 2023/04/19 22:15:51 by inwagner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,8 @@ SOBJ	:=	$(SFTS:%.c=$(OSRC)%.o)
 COBJ	:=	$(CFTS:%.c=$(OSRC)%.o)
 
 # BONUS
-BSFTS	:=	server_bonus.c utils.c
-BCFTS	:=	client_bonus.c utils.c
+BSFTS	:=	server_bonus.c utils_bonus.c
+BCFTS	:=	client_bonus.c utils_bonus.c
 BSOBJ	:=	$(BSFTS:%.c=$(OSRC)%.o)
 BCOBJ	:=	$(BCFTS:%.c=$(OSRC)%.o)
 

@@ -53,3 +53,7 @@ dkms.conf
 
 # VSCode files
 *.json
+server
+client
+server_bonus
+client_bonus
