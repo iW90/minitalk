@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/17 21:41:43 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/19 21:17:30 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 // "volátil" informa para o compilador que essa var será modificada com frequência e não deve ser otimizada.
 // sig_atomic_t é um int, usada para portabilidade caso não seja mais um int.
 volatile sig_atomic_t	g_flag = 1;
-
 
 // Envia 1 e 0, sendo que 1 pelo SIGUSR1 e 0 vai pelo SIGUSR2
 // usleep está em ms (microsegundos)
@@ -33,30 +32,30 @@ static void bit_sender(int pid, int bit)
 	}
 }
 
+// Função para enviar mensagens para o server
 static void	message_sender(int pid, char *str)
 {
 	int	bit;
 
 	while (1) //acessando cada letra
 	{
-		bit = 7;
-		while (bit >= 0) //acessando cada bit de cada letra
-		{
-			bit_sender(pid, (*str >> bit) & 1);
-			bit--;
-		}
+		bit = 8;
+		while (bit--) //acessando cada bit de cada letra
+			bit_sender(pid, *str >> bit & 1);
 		if(!*str)
 			break ;
 		str++;
 	}	
 }
 
+// Função flag para interromper o envio de bits quando a string terminar
 static void	siggyaction(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
+	(void)sig;
 	g_flag = 0;
-	ft_printf("Sig: %i\n", sig);
+	//ft_printf("Sig: %i\n", sig);
 }
 
 int	main(int argc, char **argv)
@@ -75,7 +74,7 @@ int	main(int argc, char **argv)
 		write(2, "Invalid arguments.\n", 19);
 		return (-1);
 	}
-	ft_printf("PID: %i\n", pid);
+	//ft_printf("PID: %i\n", pid);
 
 	// Lida com sinais que devem ser ignorados.
 	// Evita que outras aplicações interfiram, impedindo sinais externos.
@@ -126,3 +125,6 @@ static void	siggyaction(int sig, siginfo_t *info, void *context)
 	}
 }
 */
+
+
+//echo -e '\xDF\xB7''\xF0\x9F\x98\x80''\xC3\xB8''\xE1\x8E\x88''\xF0\x9F\x98\x85''\xDF\xA6''\xE1\x8F\xA2''\xF0\x9F\x98\x8A' | xargs ./client
