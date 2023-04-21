@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 19:55:24 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 20:34:52 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/20 21:25:51 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ void	ft_putstr_fd(char *str, int fd)
 void	exit_program(int ret, char *msg, int fd)
 {
 	ft_putstr_fd(msg, fd);
-	write(1, "\n", 1);
 	exit(ret);
 }

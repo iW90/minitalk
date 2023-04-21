@@ -6,20 +6,21 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 20:36:45 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/20 21:18:08 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
 // Variável Global
-// "volátil" informa para o compilador que essa var será modificada
-// com frequência e não deve ser otimizada.
+// "volátil" informa para o compilador que essa var será
+// modificada com frequência e não deve ser otimizada.
 // sig_atomic_t é um int, usada para portabilidade caso não seja mais um int.
 volatile sig_atomic_t	g_flag = 1;
 
 // Envia 1 e 0, sendo que 1 pelo SIGUSR1 e 0 vai pelo SIGUSR2
-// usleep está em ms (microsegundos)
+	// usleep está em ms (microsegundos)
+	// Envia um bit por vez e aguarda o sinal (g_flag muda) para sair do looping
 static void	bit_sender(int pid, int bit)
 {
 	g_flag = 1;
@@ -34,23 +35,27 @@ static void	bit_sender(int pid, int bit)
 }
 
 // Função para enviar mensagens para o server
+	// acessando cada letra
+	// acessando cada bit de cada letra
 static void	message_sender(int pid, char *str)
 {
 	int	bit;
 
-	while (1) //acessando cada letra
+	while (1)
 	{
 		bit = 8;
-		while (bit--) //acessando cada bit de cada letra
+		while (bit--)
 			bit_sender(pid, *str >> bit & 1);
 		if (!*str)
 			break ;
 		str++;
-	}	
+	}
 }
 
 // Função flag para interromper o envio de bits quando a string terminar
-static void	siggyaction(int sig, siginfo_t *info, void *context)
+	// Entra em "contato" com o server, pelo PID.
+	// Envia o SIGUSR1 (10) como mensagem.
+static void	await_flag(int sig, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
@@ -59,73 +64,50 @@ static void	siggyaction(int sig, siginfo_t *info, void *context)
 	//ft_printf("Sig: %i\n", sig);
 }
 
+// Valida os argumentos e retorna o pid em int.
+static pid_t	pid_validator(char *p)
+{
+	pid_t	pid;
+
+	if (!ft_isalldigit(p))
+		exit_program(1, "Invalid arguments.\n", 2);
+	pid = (pid_t)ft_atoi(p);
+	if (pid < 1)
+		exit_program(1, "Invalid arguments.\n", 2);
+	return (pid);
+}
+
+// sigemptyset:
+	// Lida com sinais que devem ser ignorados.
+	// Evita que outras aplicações interfiram, impedindo sinais externos.
+// s_ggy.sa_handler:
+	// [unused] Função padrão para lidar com sinal (recebe 1 parâmetro).
+// s_iggy.sa_flags = SA_SIGINFO:
+	// Altera o comportamento de um sinal.
+	// siginfo determina que será usada a função de sa_sigaction.
+// s_iggy.sa_sigaction = &await_flag:
+	// Função para lidar com o sinal (recebe 3 parâmetros).
+	// Não uso nenhum dos três, mas é obrigatório o formato.
+// sigaction(SIGUSR1, &s_iggy, NULL):
+	// Hook: Manipula o comportamento de um sinal.
 int	main(int argc, char **argv)
 {
 	pid_t				pid;
 	struct sigaction	s_iggy;
 
-	if (argc != 3 || !ft_isalldigit(argv[1]))
-	{
-		write(2, "Invalid arguments.\n", 19);
-		return (-1);
-	}
-	pid = (pid_t)ft_atoi(argv[1]);
-	if (pid < 1)
-	{
-		write(2, "Invalid arguments.\n", 19);
-		return (-1);
-	}
+	if (argc != 3)
+		exit_program(1, "Invalid arguments.\n", 2);
+	pid = pid_validator(argv[1]);
 	//ft_printf("PID: %i\n", pid);
-
-	// Lida com sinais que devem ser ignorados.
-	// Evita que outras aplicações interfiram, impedindo sinais externos.
 	sigemptyset(&s_iggy.sa_mask);
-
-	// Função padrão para lidar com sinal (recebe 1 parâmetro).
 	s_iggy.sa_handler = NULL;
-
-	// Altera o comportamento de um sinal.
-	// siginfo determina que será usada a função de sa_sigaction.
 	s_iggy.sa_flags = SA_SIGINFO;
-
-	// [Unused] Função para lidar com o sinal (recebe 3 parâmetros).
-	s_iggy.sa_sigaction = &siggyaction;
-
+	s_iggy.sa_sigaction = &await_flag;
 	sigaction(SIGUSR1, &s_iggy, NULL);
 	message_sender(pid, argv[2]);
-
-	/* TESTS AND NOTES*/
-	// Entra em "contato" com o server, pelo PID.
-	// Envia o SIGUSR1 (10) como mensagem.
-	//kill(pid, SIGUSR1);
-
-	// Hook: Manipula o comportamento de um sinal.
-	//sigaction(SIGINT, &s_iggy, NULL);
-	//while (1)
-	//	;
 }
 
-// sig = SIGUSR1, SIGUSR2, SIGINT, etc.
-// info = PID e outros trens não usados.
-// [unused] context.
-/*
-static void	siggyaction(int sig, siginfo_t *info, void *context)
-{
-	(void)context;
-	(void)info;
+// TESTES E ANOTAÇÕES
 	// O PID zero é reservado para o kernel.
 	// Imprime 0 porque ^C é o kernel que envia.
 	// SIGINT é o sinal de ^C (Ctrl+C).
-	//ft_printf("\n%i\n", info->si_pid);
-	
-	// Se o sig (sinal) recebido for igual a SIGINT (^C)
-	if (sig == SIGINT)
-	{
-		write(1, "hehehe\n", 7);
-		exit(0);
-	}
-}
-*/
-
-//echo -e '\xDF\xB7''\xF0\x9F\x98\x80''\xC3\xB8''\xE1\x8E\x88' | xargs ./client
-//echo -e '\xF0\x9F\x98\x85''\xDF\xA6''\xE1\x8F\xA2''\xF0\x9F\x98\x8A' | xargs ./client

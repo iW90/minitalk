@@ -6,12 +6,13 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:07 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 20:34:13 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/20 21:18:28 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
+// Imprime cada letra montada pelo bit_receiver.
 static void	print_letter(char *letter, int *bit, int *pid)
 {
 	if (*letter)
@@ -26,15 +27,13 @@ static void	print_letter(char *letter, int *bit, int *pid)
 		*pid = 0;
 		*bit = 0;
 	}
-
-	// TESTE
-	//if (sig == SIGUSR2)
-	//	ft_printf("Client PID: %i\nSignal Received: %i\n", info->si_pid, sig);
 }
 
-// sig = SIGUSR1 || SIGUSR2
-// info = PID e outros trens não usados
-// [unused] context
+// Função que recebe cada bit e monta a letra
+	// Quando o bit é -1, uma letra foi montada e é enviada para impressão.
+	// sig = SIGUSR1 || SIGUSR2
+	// info = PID e outros trens não usados
+	// [unused] context
 static void	bit_receiver(int sig, siginfo_t *info, void *context)
 {
 	static char	letter;
@@ -49,7 +48,7 @@ static void	bit_receiver(int sig, siginfo_t *info, void *context)
 	}
 	if (sig == SIGUSR1)
 		letter |= 1 << bit;
-	else //sig == SIGUSR2
+	else
 		letter &= ~(1 << bit);
 	bit--;
 	if (bit < 0)
@@ -57,38 +56,39 @@ static void	bit_receiver(int sig, siginfo_t *info, void *context)
 	kill(info->si_pid, SIGUSR1);
 }
 
+// sigemptyset:
+	// Lida com sinais que devem ser ignorados.
+	// Evita que outras aplicações interfiram, impedindo sinais externos.
+// s_ggy.sa_handler:
+	// [unused] Função padrão para lidar com sinal (recebe 1 parâmetro).
+// s_iggy.sa_flags = SA_SIGINFO:
+	// Altera o comportamento de um sinal.
+	// siginfo determina que será usada a função de sa_sigaction.
+// s_iggy.sa_sigaction = &await_flag:
+	// Função para lidar com o sinal (recebe 3 parâmetros).
+	// Não uso nenhum dos três, mas é obrigatório o formato.
+// sigaction(SIGUSR1, &s_iggy, NULL):
+	// Hook: Manipula o comportamento de um sinal.
+	// Comportamento dos sinais SIGUSR1 e SIGUSR2.
+// O looping infinito mantém o programa rodando até usar um Ctrl^C.
 int	main(void)
 {
 	struct sigaction	s_iggy;
-	
+
 	ft_printf("Server PID: %i\n", getpid());
-	
-	// Lida com sinais que devem ser ignorados.
-	// Evita que outras aplicações interfiram, impedindo sinais externos.
 	sigemptyset(&s_iggy.sa_mask);
-
-	// [Unused] Função padrão para lidar com sinal (recebe 1 parâmetro).
 	s_iggy.sa_handler = NULL;
-
-	// Altera o comportamento de um sinal.
-	// siginfo determina que será usada a função de sa_sigaction.
 	s_iggy.sa_flags = SA_SIGINFO;
-
-	// Função para lidar com o sinal (recebe 3 parâmetros).
 	s_iggy.sa_sigaction = &bit_receiver;
-
-	// Hook: Manipula o comportamento de um sinal.
-	// Comportamento dos sinais SIGUSR1 e SIGUSR2.
 	sigaction(SIGUSR1, &s_iggy, NULL);
 	sigaction(SIGUSR2, &s_iggy, NULL);
-
-	// Mantém o server rodando.
 	while (1)
 		;
 	return (0);
 }
 
-/* Imprime o binário do caractere
+/* TESTES E ANOTAÇÕES
+// Imprime o binário do caractere
 static void print_binary(char c)
 {
 	int i;

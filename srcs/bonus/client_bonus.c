@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 20:39:22 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/20 21:25:57 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	await_flag(int sig)
 {
 	g_flag = 0;
 	if (sig == SIGUSR2)
-		exit_program(0, "Server message received!", 1);
+		exit_program(0, "Server message received!\n", 1);
 }
 
 static pid_t	pid_validator(char *p)
@@ -78,5 +78,6 @@ int	main(int argc, char **argv)
 		;
 }
 
-//echo -e '\xDF\xB7''\xF0\x9F\x98\x80''\xC3\xB8''\xE1\x8E\x88' | xargs ./client
-//echo -e '\xF0\x9F\x98\x85''\xDF\xA6''\xE1\x8F\xA2''\xF0\x9F\x98\x8A' | xargs ./client
+//Para imprimir emoji
+	//echo -e '\xF0\x9F\x98\x8A' | xargs ./client
+	// ./client <PID> 😊
