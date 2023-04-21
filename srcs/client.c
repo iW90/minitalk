@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 21:18:08 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/21 10:47:04 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	await_flag(int sig, siginfo_t *info, void *context)
 	(void)info;
 	(void)sig;
 	g_flag = 0;
-	//ft_printf("Sig: %i\n", sig);
 }
 
 // Valida os argumentos e retorna o pid em int.
@@ -98,7 +97,6 @@ int	main(int argc, char **argv)
 	if (argc != 3)
 		exit_program(1, "Invalid arguments.\n", 2);
 	pid = pid_validator(argv[1]);
-	//ft_printf("PID: %i\n", pid);
 	sigemptyset(&s_iggy.sa_mask);
 	s_iggy.sa_handler = NULL;
 	s_iggy.sa_flags = SA_SIGINFO;
