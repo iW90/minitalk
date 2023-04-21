@@ -6,20 +6,21 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:10 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/19 21:19:23 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:36:45 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minitalk.h"
 
 // Variável Global
-// "volátil" informa para o compilador que essa var será modificada com frequência e não deve ser otimizada.
+// "volátil" informa para o compilador que essa var será modificada
+// com frequência e não deve ser otimizada.
 // sig_atomic_t é um int, usada para portabilidade caso não seja mais um int.
 volatile sig_atomic_t	g_flag = 1;
 
 // Envia 1 e 0, sendo que 1 pelo SIGUSR1 e 0 vai pelo SIGUSR2
 // usleep está em ms (microsegundos)
-static void bit_sender(int pid, int bit)
+static void	bit_sender(int pid, int bit)
 {
 	g_flag = 1;
 	while (g_flag)
@@ -42,7 +43,7 @@ static void	message_sender(int pid, char *str)
 		bit = 8;
 		while (bit--) //acessando cada bit de cada letra
 			bit_sender(pid, *str >> bit & 1);
-		if(!*str)
+		if (!*str)
 			break ;
 		str++;
 	}	
@@ -126,4 +127,5 @@ static void	siggyaction(int sig, siginfo_t *info, void *context)
 }
 */
 
-//echo -e '\xDF\xB7''\xF0\x9F\x98\x80''\xC3\xB8''\xE1\x8E\x88''\xF0\x9F\x98\x85''\xDF\xA6''\xE1\x8F\xA2''\xF0\x9F\x98\x8A' | xargs ./client
+//echo -e '\xDF\xB7''\xF0\x9F\x98\x80''\xC3\xB8''\xE1\x8E\x88' | xargs ./client
+//echo -e '\xF0\x9F\x98\x85''\xDF\xA6''\xE1\x8F\xA2''\xF0\x9F\x98\x8A' | xargs ./client

@@ -6,7 +6,7 @@
 #    By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 19:33:27 by inwagner          #+#    #+#              #
-#    Updated: 2023/04/19 22:15:51 by inwagner         ###   ########.fr        #
+#    Updated: 2023/04/20 20:06:26 by inwagner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ all: $(NAME)
 
 $(NAME): $(PTF) $(SERVER) $(CLIENT)
 
-bonus: $(BSERVER) $(BCLIENT)
+bonus: $(PTF) $(BSERVER) $(BCLIENT)
 
 # Compile ft_printf
 $(PTF):

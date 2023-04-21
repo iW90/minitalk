@@ -6,7 +6,7 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 19:55:24 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/19 22:14:37 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/04/20 20:34:40 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_atoi(const char *str)
 
 int	ft_isalldigit(char *str)
 {
-	while(*str)
+	while (*str)
 	{
 		if (*str < '0' || *str > '9')
 			return (0);
