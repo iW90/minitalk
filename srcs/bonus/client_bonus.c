@@ -77,7 +77,3 @@ int	main(int argc, char **argv)
 	while (1)
 		;
 }
-
-//Para imprimir emoji
-	//echo -e '\xF0\x9F\x98\x8A' | xargs ./client
-	// ./client <PID> 😊
