@@ -59,6 +59,6 @@ Para encerrar o **server**, utilize o comando <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 
 <div align="center">
 
-![minitalk](./info/minitalk.png)
+![minitalk](./info/visualization.png)
 
 </div>
