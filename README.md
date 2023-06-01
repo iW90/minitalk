@@ -54,3 +54,11 @@ Para encerrar o **server**, utilize o comando <kbd>Ctrl</kbd> + <kbd>C</kbd>.
 - Para imprimir emojis há duas formas:
 	- `./client <PID> 😊`
 	- `echo -e '\xF0\x9F\x98\x8A' | xargs ./client`
+
+## Visualização
+
+<div align="center">
+
+![minitalk](./info/minitalk.png)
+
+</div>

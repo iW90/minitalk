@@ -6,11 +6,11 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 14:11:07 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 20:37:40 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:49:27 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "minitalk.h"
 
 static void	print_letter(char *letter, int *bit, int *pid)
 {

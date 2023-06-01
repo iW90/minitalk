@@ -6,7 +6,7 @@
 #    By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/13 19:33:27 by inwagner          #+#    #+#              #
-#    Updated: 2023/04/20 20:06:26 by inwagner         ###   ########.fr        #
+#    Updated: 2023/06/01 10:49:39 by inwagner         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ BCLIENT	:=	client_bonus
 PRINTF	:=	ft_printf.a
 
 # FLAGS
-HDR		:=	-I ./includes/
+HDR		:=	-I ./incl/
 CFLAG	:=	-Wall -Werror -Wextra
 
 # PATHS

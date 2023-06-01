@@ -6,11 +6,11 @@
 /*   By: inwagner <inwagner@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 19:55:24 by inwagner          #+#    #+#             */
-/*   Updated: 2023/04/20 21:25:51 by inwagner         ###   ########.fr       */
+/*   Updated: 2023/06/01 10:49:32 by inwagner         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
+#include "minitalk.h"
 
 int	ft_atoi(const char *str)
 {
