@@ -1,6 +1,6 @@
 # 42 Cursus - minitalk
 
-<img src="https://game.42sp.org.br/static/assets/achievements/minitalkm.png" alt="completion-with-bonus-badge" align="left">
+<img src="./assets/minitalkm.png" alt="completion-with-bonus-badge" align="left">
 
 O objetivo deste projeto é implementar um sistema de comunicação entre dois processos utilizando `sinais UNIX`. Para isso são criados dois programas, sendo um o **client** e o outro o **server**, e eles comunicarão entre si através do envio de sinais e mensagens. O **client** enviará uma mensagem (codificação binária), para o **server**, que a recebe, decodifica e exibe na tela. É permitido o uso apenas dos sinais `SIGUSR1` e `SIGUSR2`, e das funções `signal` e `sigaction`.
 
